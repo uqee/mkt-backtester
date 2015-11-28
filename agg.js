@@ -1,6 +1,6 @@
 'use strict';
 var fs = require('fs');
-var qfs = require('./quotesfs');
+var lib = require('./lib');
 
 function byTicks (data, _filename, _period) {
 
@@ -60,4 +60,4 @@ function byTicks (data, _filename, _period) {
 
 var FILENAME = process.argv[2];
 var PERIOD = process.argv[3];
-byTicks(qfs.read(FILENAME), FILENAME, PERIOD);
+byTicks(lib.quotes.read(FILENAME), FILENAME, PERIOD);
