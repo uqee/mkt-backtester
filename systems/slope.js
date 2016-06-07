@@ -10,11 +10,12 @@ module.exports = function (data, params) {
     slope = data[i-1].close - data[i-2].close;
 
     // orders
-    //var position = acc.getPosition();
-    //if (position > 0 && slope >= -param0) acc.setOrder({ dir: 's', mkt: true, volume:  position });
-    //if (position < 0 && slope <=  param0) acc.setOrder({ dir: 'b', mkt: true, volume: -position });
-    if (slope >=  param0) lib.orders.create({ dir: lib.orders.DIR_BUY });
-    if (slope <= -param0) lib.orders.create({ dir: lib.orders.DIR_SELL });
+    var position = lib.orders.getPosition();
+    if (!position) {
+      if (slope >= param0) lib.orders.create({ dir: lib.orders.DIR_BUY, sl: 100 });
+      //else if (slope <= -param0) lib.orders.sell({ sl: 40, tp: 120 });
+    }
+    else if (position * slope < 0) lib.orders.flat();
 
     // trade
     var equity = lib.orders.trade(data[i]);
